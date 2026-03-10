@@ -1,0 +1,44 @@
+{% extends "customer_app/base.html" %}
+{% load static %}
+{% block content %}
+<section class="active-product-area section_gap">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <br><br>
+                    <h1>All Products</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-lg-3 col-md-6">
+                <div class="single-product">
+                    {% if product.image %}
+                    <img class="img-fluid" style="height:250px;object-fit:contain;" src="{{ product.image.url }}" alt="">
+                    {% else %}
+                    <img class="img-fluid" src="{% static 'customer_app/img/product/p1.jpg' %}" alt="">
+                    {% endif %}
+                    <div class="product-details">
+                        <h6><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h6>
+                        <p>Category: {{ product.category.name }}</p>
+                        <div class="price">
+                            <h6>${{ product.price }}</h6>
+                        </div>
+                        <div class="prd-bottom">
+                            <a href="" class="social-info">
+                                <span class="ti-bag"></span>
+                                <p class="hover-text">add to bag</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center"><p>No products available.</p></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

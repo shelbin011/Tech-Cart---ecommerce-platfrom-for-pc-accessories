@@ -1,0 +1,34 @@
+{% extends "customer_app/base.html" %}
+{% load static %}
+{% block content %}
+<div class="product_image_area" style="padding-top:100px;">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <div class="single-prd-item">
+                    {% if product.image %}
+                    <img class="img-fluid" src="{{ product.image.url }}" alt="">
+                    {% else %}
+                    <img class="img-fluid" src="{% static 'customer_app/img/product/p1.jpg' %}" alt="">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>{{ product.name }}</h3>
+                    <h2>${{ product.price }}</h2>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Category</span> : {{ product.category.name }}</a></li>
+                        <li><a href="#"><span>Availibility</span> : {% if product.stock > 0 %}In Stock{% else %}Out of Stock{% endif %}</a></li>
+                    </ul>
+                    <p>{{ product.description }}</p>
+                    <div class="card_area d-flex align-items-center">
+                        <a class="primary-btn" href="#">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br>
+{% endblock %}
