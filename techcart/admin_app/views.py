@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -98,3 +98,25 @@ def add_product(request):
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'admin_app/product_list.html', {'products': products})
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_admin, login_url='admin_login')
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'admin_app/category_list.html', {'categories': categories})
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_admin, login_url='admin_login')
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    category.delete()
+    messages.success(request, 'Category deleted successfully.')
+    return redirect('admin_category_list')
+
+@login_required(login_url='admin_login')
+@user_passes_test(is_admin, login_url='admin_login')
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    product.delete()
+    messages.success(request, 'Product deleted successfully.')
+    return redirect('admin_product_list')
