@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="shop-layout" style="grid-template-columns: 2fr 1fr; margin-top: 8rem; max-width: 1200px;">
+<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 800px; margin-left: auto; margin-right: auto;">
     
     <!-- Checkout Form -->
     <div class="shop-main" style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 2rem;">
@@ -46,37 +46,10 @@
             </div>
             
             <div style="grid-column: 1 / span 2; margin-top: 1rem;">
-                <button type="submit" class="btn-premium" style="width: 100%; padding: 1rem; justify-content: center;">Complete Purchase</button>
+                <button type="button" class="btn-premium" style="width: 100%; padding: 1rem; justify-content: center;">Complete Purchase</button>
             </div>
         </form>
     </div>
 
-    <!-- Order Summary -->
-    <div style="background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); border-radius: 16px; padding: 2rem; height: fit-content; position: sticky; top: 100px;">
-        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">Order Summary</h3>
-        
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.95rem;">
-            <div style="display: flex; gap: 0.5rem; color: var(--text-secondary);">
-                <span>1x</span>
-                <span style="color: white; font-weight: 500;">Premium Keyboard</span>
-            </div>
-            <span>$150.00</span>
-        </div>
-        
-        <div style="border-top: 1px solid var(--card-border); padding-top: 1.5rem; margin-top: 1rem;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--text-secondary);">
-                <span>Subtotal</span>
-                <span>$150.00</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; color: var(--text-secondary);">
-                <span>Shipping</span>
-                <span>Free</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 700; color: white;">
-                <span>Total</span>
-                <span style="color: var(--accent-color);">$150.00</span>
-            </div>
-        </div>
-    </div>
 </div>
 {% endblock %}
