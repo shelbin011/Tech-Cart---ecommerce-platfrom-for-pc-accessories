@@ -1,242 +1,82 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
+
 {% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1>Elevate Your Setup. command the game.</h1>
+            <p>Discover the finest selection of mechanical keyboards, ultra-lightweight mice, and premium headsets. Engineered for absolute precision and peak peripheral performance.</p>
+            <div style="display:flex; gap:1rem;">
+                <a href="{% url 'product_list' %}" class="btn-premium">Shop Now <i class="fas fa-arrow-right"></i></a>
+                <a href="#features" class="btn-outline">Explore Products</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'customer_app/img/banner/new-banner.png' %}" alt="Premium PC Setup">
+        </div>
+    </div>
+</section>
 
-<style>
-.banner-img img {
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    max-height: 500px;
-    object-fit: cover;
-    width: 100%;
-}
-</style>
+<!-- Features Grid -->
+<section id="features" class="features-grid">
+    <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
+        <h3 class="feature-title">Free Shipping</h3>
+        <p class="feature-desc">On all orders over $50</p>
+    </div>
+    <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-shield"></i></div>
+        <h3 class="feature-title">2 Year Warranty</h3>
+        <p class="feature-desc">Worry-free replacement guarantee</p>
+    </div>
+    <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-headset"></i></div>
+        <h3 class="feature-title">24/7 Support</h3>
+        <p class="feature-desc">Expert technical assistance</p>
+    </div>
+    <div class="feature-box">
+        <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
+        <h3 class="feature-title">Secure Payments</h3>
+        <p class="feature-desc">100% safe & encrypted</p>
+    </div>
+</section>
 
+<!-- Latest Products -->
+<section class="section-premium">
+    <div class="section-header">
+        <h2 class="section-title">New Arrivals</h2>
+        <p class="section-subtitle">Upgrade your battle station with our latest drop of cutting-edge gear.</p>
+    </div>
 
-<style>
-.category-area .col-lg-8.col-md-8 .single-deal { height: 250px; }
-.category-area .col-lg-8.col-md-8 .single-deal img { height: 250px; object-fit: cover; width: 100%; border-radius: 8px; }
-.category-area .col-lg-4.col-md-4 .single-deal { height: 250px; }
-.category-area .col-lg-4.col-md-4 .single-deal img { height: 250px; object-fit: cover; width: 100%; border-radius: 8px; }
-.category-area > .container > .row > .col-lg-4.col-md-6 .single-deal { height: 530px; }
-.category-area > .container > .row > .col-lg-4.col-md-6 .single-deal img { height: 530px; object-fit: cover; width: 100%; border-radius: 8px; }
-.single-deal { margin-bottom: 30px; border-radius: 8px; overflow: hidden; display: block; }
-</style>
-
-
-
-	<!-- start banner Area -->
-	<section class="banner-area">
-		<div class="container">
-			<div class="row fullscreen align-items-center justify-content-start">
-				<div class="col-lg-12">
-					<div class="active-banner-slider owl-carousel">
-						<!-- single-slide -->
-						<div class="row single-slide align-items-center d-flex">
-							<div class="col-lg-5 col-md-6">
-								<div class="banner-content">
-									<h1>Elite PC <br>Accessories!</h1>
-									<p>Discover the finest selection of keyboards, mice, and headsets, engineered for
-										absolute precision and peak gaming performance.</p>
-									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-7">
-								<div class="banner-img">
-									<img class="img-fluid"
-										src="{% static 'customer_app/img/banner/banner-img.png.png' %}?v=1" alt="">
-								</div>
-							</div>
-						</div>
-						<!-- single-slide -->
-						<div class="row single-slide">
-							<div class="col-lg-5">
-								<div class="banner-content">
-									<h1>Elite PC <br>Accessories!</h1>
-									<p>Discover the finest selection of keyboards, mice, and headsets, engineered for
-										absolute precision and peak gaming performance.</p>
-									<div class="add-bag d-flex align-items-center">
-										<a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-										<span class="add-text text-uppercase">Add to Bag</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-7">
-								<div class="banner-img">
-									<img class="img-fluid"
-										src="{% static 'customer_app/img/banner/banner-img.png.png' %}?v=1" alt="">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End banner Area -->
-
-	<!-- start features Area -->
-	<section class="features-area section_gap">
-		<div class="container">
-			<div class="row features-inner">
-				<!-- single features -->
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="single-features">
-						<div class="f-icon">
-							<img src="{% static 'customer_app/img/features/f-icon1.png' %}?v=1" alt="">
-						</div>
-						<h6>Free Delivery</h6>
-						<p>Free Shipping on all order</p>
-					</div>
-				</div>
-				<!-- single features -->
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="single-features">
-						<div class="f-icon">
-							<img src="{% static 'customer_app/img/features/f-icon2.png' %}?v=1" alt="">
-						</div>
-						<h6>Return Policy</h6>
-						<p>Free Shipping on all order</p>
-					</div>
-				</div>
-				<!-- single features -->
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="single-features">
-						<div class="f-icon">
-							<img src="{% static 'customer_app/img/features/f-icon3.png' %}?v=1" alt="">
-						</div>
-						<h6>24/7 Support</h6>
-						<p>Free Shipping on all order</p>
-					</div>
-				</div>
-				<!-- single features -->
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="single-features">
-						<div class="f-icon">
-							<img src="{% static 'customer_app/img/features/f-icon4.png' %}?v=1" alt="">
-						</div>
-						<h6>Secure Payment</h6>
-						<p>Free Shipping on all order</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end features Area -->
-
-	<!-- Start category Area -->
-	<section class="category-area">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-8 col-md-12">
-					<div class="row">
-						<div class="col-lg-8 col-md-8">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'customer_app/img/category/c1.jpg' %}?v=1"
-									alt="">
-								<a href="img/category/c1.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Gaming Gear</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'customer_app/img/category/c2.jpg' %}?v=1"
-									alt="">
-								<a href="img/category/c2.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Gaming Gear</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'customer_app/img/category/c3.jpg' %}?v=1"
-									alt="">
-								<a href="img/category/c3.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Mechanical Keyboards</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-lg-8 col-md-8">
-							<div class="single-deal">
-								<div class="overlay"></div>
-								<img class="img-fluid w-100" src="{% static 'customer_app/img/category/c4.jpg' %}?v=1"
-									alt="">
-								<a href="img/category/c4.jpg" class="img-pop-up" target="_blank">
-									<div class="deal-details">
-										<h6 class="deal-title">Gaming Gear</h6>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-deal">
-						<div class="overlay"></div>
-						<img class="img-fluid w-100" src="{% static 'customer_app/img/category/c5.jpg' %}?v=1" alt="">
-						<a href="img/category/c5.jpg" class="img-pop-up" target="_blank">
-							<div class="deal-details">
-								<h6 class="deal-title">Sneaker for Sports</h6>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End category Area -->
-
-<section class="active-product-area section_gap">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 text-center">
-                <div class="section-title">
-                    <br><br>
-                    <h1>Latest Products</h1>
-                    <p>Check out our brand new PC accessories</p>
+    <div class="product-grid">
+        {% for product in latest_products %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' product.id %}" class="product-image-wrap">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img src="{% static 'customer_app/img/product/p1.jpg' %}" alt="{{ product.name }}">
+                {% endif %}
+            </a>
+            <div class="product-info">
+                <span class="product-cat">{{ product.category.name|default:"Peripheral" }}</span>
+                <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                <div class="product-bottom">
+                    <span class="product-price">${{ product.price }}</span>
+                    <a href="{% url 'cart' %}" class="add-to-cart" title="Add to Cart">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="row">
-            {% for product in latest_products %}
-            <div class="col-lg-3 col-md-6">
-                <div class="single-product">
-                    {% if product.image %}
-                    <img class="img-fluid" src="{{ product.image.url }}" style="height:250px; object-fit:contain" alt="">
-                    {% else %}
-                    <img class="img-fluid" src="{% static 'customer_app/img/product/p1.jpg' %}?v=1" alt="">
-                    {% endif %}
-                    <div class="product-details">
-                        <h6><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h6>
-                        <div class="price">
-                            <h6>${{ product.price }}</h6>
-                        </div>
-                        <div class="prd-bottom">
-                            <a href="" class="social-info">
-                                <span class="ti-bag"></span>
-                                <p class="hover-text">add to bag</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-12 text-center"><p>No products available yet.</p></div>
-            {% endfor %}
+        {% empty %}
+        <div style="grid-column: 1/-1; text-align:center; padding: 4rem; color: var(--text-secondary);">
+            <i class="fas fa-box-open" style="font-size:3rem; margin-bottom:1rem; opacity:0.5;"></i>
+            <p>New gear is dropping soon. Check back later!</p>
         </div>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}

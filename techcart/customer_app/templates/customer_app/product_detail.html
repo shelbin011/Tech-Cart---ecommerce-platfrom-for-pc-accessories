@@ -1,34 +1,41 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
+
 {% block content %}
-<div class="product_image_area" style="padding-top:100px;">
-    <div class="container">
-        <div class="row s_product_inner">
-            <div class="col-lg-6">
-                <div class="single-prd-item">
-                    {% if product.image %}
-                    <img class="img-fluid" src="{{ product.image.url }}" alt="">
-                    {% else %}
-                    <img class="img-fluid" src="{% static 'customer_app/img/product/p1.jpg' %}" alt="">
-                    {% endif %}
-                </div>
+<div class="product-detail-container">
+    <div class="product-image-large">
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+        <img src="{% static 'customer_app/img/product/p1.jpg' %}" alt="{{ product.name }}">
+        {% endif %}
+    </div>
+
+    <div class="product-detail-info">
+        <div class="product-detail-cat">{{ product.category.name|default:"PC Peripheral" }}</div>
+        <h1 class="product-detail-name">{{ product.name }}</h1>
+        <div class="product-detail-price">${{ product.price }}</div>
+        
+        <p class="product-detail-desc">{{ product.description }}</p>
+
+        {% if product.stock > 0 %}
+            <div class="product-stock">
+                <i class="fas fa-check-circle"></i> In Stock (Fast Shipping)
             </div>
-            <div class="col-lg-5 offset-lg-1">
-                <div class="s_product_text">
-                    <h3>{{ product.name }}</h3>
-                    <h2>${{ product.price }}</h2>
-                    <ul class="list">
-                        <li><a class="active" href="#"><span>Category</span> : {{ product.category.name }}</a></li>
-                        <li><a href="#"><span>Availibility</span> : {% if product.stock > 0 %}In Stock{% else %}Out of Stock{% endif %}</a></li>
-                    </ul>
-                    <p>{{ product.description }}</p>
-                    <div class="card_area d-flex align-items-center">
-                        <a class="primary-btn" href="#">Add to Cart</a>
-                    </div>
-                </div>
+        {% else %}
+            <div class="product-stock out">
+                <i class="fas fa-times-circle"></i> Out of Stock
             </div>
+        {% endif %}
+
+        <div class="action-buttons">
+            <a href="{% url 'cart' %}" class="btn-premium">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+            </a>
+            <a href="{% url 'product_list' %}" class="btn-outline">
+                <i class="fas fa-arrow-left"></i> Keep Shopping
+            </a>
         </div>
     </div>
 </div>
-<br><br><br>
 {% endblock %}

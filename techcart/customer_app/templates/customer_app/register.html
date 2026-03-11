@@ -1,234 +1,57 @@
+{% extends "customer_app/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" class="no-js">
 
-<head>
-    <!-- Mobile Specific Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon-->
-    <link rel="shortcut icon" href="{% static 'customer_app/img/fav.png' %}">
-    <!-- Author Meta -->
-    <meta name="author" content="TechCart">
-    <!-- Meta Description -->
-    <meta name="description" content="TechCart - Create your account">
-    <!-- meta character set -->
-    <meta charset="UTF-8">
-    <!-- Site Title -->
-    <title>TechCart - Register</title>
-
-    <!--
-		CSS
-		============================================= -->
-    <link rel="stylesheet" href="{% static 'customer_app/css/linearicons.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/owl.carousel.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/nice-select.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/nouislider.min.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/main.css' %}">
-    <style>
-        .login_box_area {
-            padding-top: 0px;
-            padding-bottom: 80px;
-            min-height: auto;
-            display: flex;
-            align-items: center;
-            margin-top: -100px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .login_box_img {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .login_form_inner {
-            padding: 50px 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border-radius: 10px;
-            background: #fff;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .section_gap {
-            padding: 30px 0;
-        }
-    </style>
-</head>
-
-<body>
-
-    <!-- Start Header Area -->
-    <header class="header_area sticky-header">
-        <div class="main_menu">
-            <nav class="navbar navbar-expand-lg navbar-light main_box">
-                <div class="container">
-                    <a class="navbar-brand logo_h" href="{% url 'home' %}"><img
-                            src="{% static 'customer_app/img/logo.png' %}" alt=""></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                            <li class="nav-item submenu dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Pages</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{% url 'customer_login' %}">Login</a>
-                                    </li>
-                                    <li class="nav-item active"><a class="nav-link"
-                                            href="{% url 'customer_register' %}">Register</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+{% block content %}
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 8rem 2rem 4rem;">
+    
+    <div style="background: var(--bg-surface); padding: 3rem; border-radius: 20px; border: 1px solid var(--card-border); max-width: 500px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+        
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+            <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Create Account</h1>
+            <p style="color: var(--text-secondary);">Join our community and upgrade your setup.</p>
         </div>
-    </header>
-    <!-- End Header Area -->
 
-    <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
-        <div class="container">
-            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-                <div class="col-first">
-                    <h1>Register</h1>
-                    <nav class="d-flex align-items-center">
-                        <a href="{% url 'home' %}">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="{% url 'customer_register' %}">Register</a>
-                    </nav>
+        {% if messages %}
+            {% for message in messages %}
+                <div style="margin-bottom: 1.5rem; padding: 1rem; border-radius: 8px; font-size: 0.9rem;
+                    {% if message.tags == 'error' %} background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171;
+                    {% else %} background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: #4ade80; {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form action="" method="POST" style="display: flex; flex-direction: column; gap: 1.2rem;">
+            {% csrf_token %}
+            
+            <div>
+                <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Username</label>
+                <input type="text" name="username" placeholder="johndoe" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
+            </div>
+
+            <div>
+                <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Email Address</label>
+                <input type="email" name="email" placeholder="john@example.com" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <div style="flex: 1;">
+                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Password</label>
+                    <input type="password" name="password1" placeholder="••••••••" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Confirm</label>
+                    <input type="password" name="password2" placeholder="••••••••" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- End Banner Area -->
 
-    <!--================Registration Box Area =================-->
-    <section class="login_box_area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="login_box_img">
-                        <img class="img-fluid" src="{% static 'customer_app/img/login.jpg' %}" alt="">
-                        <div class="hover">
-                            <h4>Already have an account?</h4>
-                            <p>Sign in to access your TechCart account and continue shopping.</p>
-                            <a class="primary-btn" href="{% url 'customer_login' %}">Log In</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="login_form_inner">
-                        <h3>Create your account</h3>
-                        {% if messages %}
-                        <div class="mb-3">
-                            {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"
-                                id="reg-alert-{{ forloop.counter }}">
-                                {{ message }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        <form class="row login_form" action="{% url 'customer_register' %}" method="post"
-                            id="registerForm" novalidate="novalidate">
-                            {% csrf_token %}
-                            <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="Username" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Username'" value="{{ request.POST.username }}" required>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Email Address" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Email Address'" value="{{ request.POST.email }}"
-                                    required>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="password1" name="password1"
-                                    placeholder="Password" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Password'" required>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="password2" name="password2"
-                                    placeholder="Confirm Password" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Confirm Password'" required>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <button type="submit" value="submit" class="primary-btn">Register</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--================End Registration Box Area =================-->
+            <button type="submit" class="btn-premium" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1rem; margin-top: 1rem;">Sign Up</button>
+        </form>
 
-    <!-- start footer Area -->
-    <footer class="footer-area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>About Us</h6>
-                        <p>TechCart is your one-stop shop for premium PC accessories.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Newsletter</h6>
-                        <p>Stay updated with our latest offers</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="single-footer-widget mail-chimp">
-                        <h6 class="mb-20">Follow Us</h6>
-                        <div class="footer-social d-flex align-items-center">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-                <p class="footer-text m-0">
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> All rights reserved | TechCart
-                </p>
-            </div>
-        </div>
-    </footer>
-    <!-- End footer Area -->
+        <p style="text-align: center; margin-top: 2rem; color: var(--text-secondary); font-size: 0.95rem;">
+            Already have an account? <a href="{% url 'customer_login' %}" style="color: var(--accent-color); font-weight: 600;">Log in</a>
+        </p>
 
-    <script src="{% static 'customer_app/js/vendor/jquery-2.2.4.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-        crossorigin="anonymous"></script>
-    <script src="{% static 'customer_app/js/vendor/bootstrap.min.js' %}"></script>
-    <script src="{% static 'customer_app/js/jquery.ajaxchimp.min.js' %}"></script>
-    <script src="{% static 'customer_app/js/jquery.nice-select.min.js' %}"></script>
-    <script src="{% static 'customer_app/js/jquery.sticky.js' %}"></script>
-    <script src="{% static 'customer_app/js/nouislider.min.js' %}"></script>
-    <script src="{% static 'customer_app/js/main.js' %}"></script>
-</body>
-
-</html>
+    </div>
+</div>
+{% endblock %}

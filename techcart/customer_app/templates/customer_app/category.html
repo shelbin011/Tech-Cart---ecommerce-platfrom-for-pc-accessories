@@ -1,194 +1,62 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
+
 {% block content %}
+<div class="shop-layout">
+    <!-- Sidebar -->
+    <aside class="shop-sidebar">
+        <h3>Categories</h3>
+        <div class="cat-list">
+            <a href="{% url 'product_list' %}" class="{% if not current_cat %}active{% endif %}">
+                All Products
+            </a>
+            {% for cat in categories %}
+            <a href="{% url 'product_list' %}?cat={{ cat.id }}" class="{% if current_cat and current_cat.id == cat.id %}active{% endif %}">
+                {{ cat.name }} ({{ cat.product_set.count }})
+            </a>
+            {% endfor %}
+        </div>
+        
+        <h3 style="margin-top: 2rem;">Filters</h3>
+        <p style="color:var(--text-secondary); font-size:0.85rem;">More filters coming soon.</p>
+    </aside>
 
-<!-- Start Banner Area -->
-<section class="banner-area organic-breadcrumb">
-	<div class="container">
-		<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-			<div class="col-first">
-				<h1>{% if current_cat %}{{ current_cat.name }}{% else %}Shop Category page{% endif %}</h1>
-				<nav class="d-flex align-items-center">
-					<a href="{% url 'home' %}">Home<span class="lnr lnr-arrow-right"></span></a>
-					<a href="{% url 'product_list' %}">Shop<span class="lnr lnr-arrow-right"></span></a>
-					<a href="#">{% if current_cat %}{{ current_cat.name }}{% else %}PC Accessories{% endif %}</a>
-				</nav>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- End Banner Area -->
+    <!-- Main Content -->
+    <div class="shop-main">
+        <div class="shop-header">
+            <h1 class="shop-title">{% if current_cat %}{{ current_cat.name }}{% else %}All Gear{% endif %}</h1>
+            <span style="color:var(--text-secondary);">Showing {{ products.count }} product(s)</span>
+        </div>
 
-<div class="container">
-	<div class="row">
-		<div class="col-xl-3 col-lg-4 col-md-5">
-			<div class="sidebar-categories">
-				<div class="head">Browse Categories</div>
-				<ul class="main-categories">
-					<li class="main-nav-list">
-						<a href="{% url 'product_list' %}">All Products</a>
-					</li>
-					{% for cat in categories %}
-					<li class="main-nav-list">
-						<a href="{% url 'product_list' %}?cat={{ cat.id }}">
-							{{ cat.name }}<span class="number">({{ cat.product_set.count }})</span>
-						</a>
-					</li>
-					{% endfor %}
-				</ul>
-			</div>
-			<div class="sidebar-filter mt-50">
-				<div class="top-filter-head">Product Filters</div>
-				<div class="common-filter">
-					<div class="head">Brands</div>
-					<form action="#">
-						<ul>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="apple"
-									name="brand"><label for="apple">Hardware<span>(29)</span></label></li>
-							<li class="filter-list"><input class="pixel-radio" type="radio" id="asus"
-									name="brand"><label for="asus">Peripherals<span>(19)</span></label></li>
-						</ul>
-					</form>
-				</div>
-				<div class="common-filter">
-					<div class="head">Price</div>
-					<div class="price-range-area">
-						<div id="price-range"></div>
-						<div class="value-wrapper d-flex">
-							<div class="price">Price:</div>
-							<span>$</span>
-							<div id="lower-value"></div>
-							<div class="to">to</div>
-							<span>$</span>
-							<div id="upper-value"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-9 col-lg-8 col-md-7">
-			<!-- Start Filter Bar -->
-			<div class="filter-bar d-flex flex-wrap align-items-center">
-				<div class="mr-auto">
-					<p style="margin: 0; color: white;">Displaying {{ products.count }} product(s)</p>
-				</div>
-				<div class="pagination">
-					<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-					<a href="#" class="active">1</a>
-					<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-				</div>
-			</div>
-			<!-- End Filter Bar -->
-			<!-- Start Best Seller -->
-			<section class="lattest-product-area pb-40 category-list">
-				<div class="row">
-					{% for product in products %}
-					<!-- single product -->
-					<div class="col-lg-4 col-md-6">
-						<div class="single-product">
-							<a href="{% url 'product_detail' product.id %}">
-								{% if product.image %}
-								<img class="img-fluid" src="{{ product.image.url }}"
-									style="height:250px; width:100%; object-fit:contain;" alt="">
-								{% else %}
-								<img class="img-fluid" src="{% static 'customer_app/img/product/p1.jpg' %}"
-									style="height:250px; width:100%; object-fit:contain;" alt="">
-								{% endif %}
-							</a>
-							<div class="product-details">
-								<h6><a href="{% url 'product_detail' product.id %}" style="color:inherit;">{{
-										product.name }}</a></h6>
-								<div class="price">
-									<h6>${{ product.price }}</h6>
-								</div>
-								<div class="prd-bottom">
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">add to bag</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-heart"></span>
-										<p class="hover-text">Wishlist</p>
-									</a>
-									<a href="{% url 'product_detail' product.id %}" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">view more</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					{% empty %}
-					<div class="col-12 text-center" style="padding: 100px 0;">
-						<h3>No products found in this category.</h3>
-						<p>Check back later or try another category!</p>
-					</div>
-					{% endfor %}
-				</div>
-			</section>
-			<!-- End Best Seller -->
-			<!-- Start Filter Bar -->
-			<div class="filter-bar d-flex flex-wrap align-items-center">
-				<div class="mr-auto"></div>
-				<div class="pagination">
-					<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-					<a href="#" class="active">1</a>
-					<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-				</div>
-			</div>
-			<!-- End Filter Bar -->
-		</div>
-	</div>
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <a href="{% url 'product_detail' product.id %}" class="product-image-wrap">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                    <img src="{% static 'customer_app/img/product/p1.jpg' %}" alt="{{ product.name }}">
+                    {% endif %}
+                </a>
+                <div class="product-info">
+                    <span class="product-cat">{{ product.category.name|default:"Peripheral" }}</span>
+                    <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                    <div class="product-bottom">
+                        <span class="product-price">${{ product.price }}</span>
+                        <a href="{% url 'cart' %}" class="add-to-cart" title="Add to Cart">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1/-1; text-align:center; padding: 4rem; color: var(--text-secondary);">
+                <i class="fas fa-box-open" style="font-size:3rem; margin-bottom:1rem; opacity:0.5;"></i>
+                <p>No products found in this category right now.</p>
+                <a href="{% url 'product_list' %}" class="btn-outline" style="margin-top:1rem; display:inline-block;">View All Gear</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
-
-<!-- Start related-product Area -->
-<section class="related-product-area section_gap">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-6 text-center">
-				<div class="section-title">
-					<h1>Deals of the Week</h1>
-					<p>Exclusive deals on high-performance PC hardware and accessories.</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-9">
-				<div class="row">
-					{% for product in products|slice:":9" %}
-					<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-						<div class="single-related-product d-flex">
-							<a href="{% url 'product_detail' product.id %}">
-								{% if product.image %}
-								<img src="{{ product.image.url }}" style="width:70px;height:70px;object-fit:cover;"
-									alt="">
-								{% else %}
-								<img src="{% static 'customer_app/img/r1.jpg' %}"
-									style="width:70px;height:70px;object-fit:cover;" alt="">
-								{% endif %}
-							</a>
-							<div class="desc">
-								<a href="{% url 'product_detail' product.id %}" class="title">{{ product.name }}</a>
-								<div class="price">
-									<h6>${{ product.price }}</h6>
-								</div>
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="ctg-right">
-					<a href="#" target="_blank">
-						<img class="img-fluid d-block mx-auto" src="{% static 'customer_app/img/category/c5.jpg' %}"
-							alt="">
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- End related-product Area -->
-
 {% endblock %}
