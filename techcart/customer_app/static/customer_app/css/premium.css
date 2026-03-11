@@ -281,7 +281,7 @@ ul {
 
 .product-image-wrap {
     position: relative;
-    padding-top: 100%; /* 1:1 Aspect Ratio */
+    padding-top: 55%; /* Changed to 55% to reduce empty vertical space for wide products like SSDs */
     background: #111113;
     overflow: hidden;
 }

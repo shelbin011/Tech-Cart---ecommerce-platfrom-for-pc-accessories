@@ -24,7 +24,7 @@
     <div class="feature-box">
         <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
         <h3 class="feature-title">Free Shipping</h3>
-        <p class="feature-desc">On all orders over $50</p>
+        <p class="feature-desc">On all orders over ₹2000</p>
     </div>
     <div class="feature-box">
         <div class="feature-icon"><i class="fas fa-shield"></i></div>
@@ -64,7 +64,7 @@
                 <span class="product-cat">{{ product.category.name|default:"Peripheral" }}</span>
                 <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
                 <div class="product-bottom">
-                    <span class="product-price">${{ product.price }}</span>
+                    <span class="product-price">₹{{ product.price }}</span>
                     <a href="{% url 'cart' %}" class="add-to-cart" title="Add to Cart">
                         <i class="fas fa-plus"></i>
                     </a>
