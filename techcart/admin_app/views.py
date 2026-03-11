@@ -42,13 +42,20 @@ def admin_logout(request):
     messages.success(request, 'You have been logged out of the admin panel.')
     return redirect('admin_login')
 
+from customer_app.models import Category, Product, User
+
 # Dashboard View
 @login_required(login_url='admin_login')
 @user_passes_test(is_admin, login_url='admin_login')
 def dashboard(request):
-    return render(request, 'admin_app/dashboard.html')
-
-from customer_app.models import Category, Product
+    context = {
+        'total_products': Product.objects.count(),
+        'total_categories': Category.objects.count(),
+        'total_customers': User.objects.filter(role='user').count(),
+        'out_of_stock': Product.objects.filter(stock=0).count(),
+        'recent_products': Product.objects.order_by('-created_at')[:5]
+    }
+    return render(request, 'admin_app/dashboard.html', context)
 
 @login_required(login_url='admin_login')
 @user_passes_test(is_admin, login_url='admin_login')
