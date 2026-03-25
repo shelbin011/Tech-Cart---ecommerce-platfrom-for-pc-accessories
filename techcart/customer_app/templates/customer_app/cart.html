@@ -1,21 +1,128 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
 
+{% block title %}Shopping Cart | TechCart{% endblock %}
+
 {% block content %}
-<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1000px;">
+<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1100px;">
     
     <div class="shop-header">
         <h1 class="shop-title">Shopping Cart</h1>
+        {% if cart_items %}
+        <span style="color: var(--text-secondary);">{{ cart_items|length }} item(s) in your cart</span>
+        {% endif %}
     </div>
 
+    {% if cart_items %}
+    <div style="display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: start;">
+        <!-- Cart Items -->
+        <div class="shop-main" style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            <div class="cart-product-info">
+                                <a href="{% url 'product_detail' item.product.id %}" class="cart-product-img">
+                                    {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                    {% else %}
+                                    <img src="{% static 'customer_app/img/product/p1.jpg' %}" alt="{{ item.product.name }}">
+                                    {% endif %}
+                                </a>
+                                <div>
+                                    <a href="{% url 'product_detail' item.product.id %}" class="cart-product-name">{{ item.product.name }}</a>
+                                    <span class="cart-product-cat">{{ item.product.category.name|default:"PC Peripheral" }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="cart-price">₹{{ item.product.price }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'update_cart' item.product.id %}" class="qty-form">
+                                {% csrf_token %}
+                                <button type="button" class="qty-btn" onclick="changeQty(this, -1)"><i class="fas fa-minus"></i></button>
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" class="qty-input" onchange="this.form.submit()">
+                                <button type="button" class="qty-btn" onclick="changeQty(this, 1)"><i class="fas fa-plus"></i></button>
+                            </form>
+                        </td>
+                        <td class="cart-line-total">₹{{ item.line_total }}</td>
+                        <td>
+                            <a href="{% url 'remove_from_cart' item.product.id %}" class="cart-remove-btn" title="Remove">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>₹{{ cart_total }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span>{% if shipping == 0 %}<span class="free-tag">FREE</span>{% else %}₹{{ shipping }}{% endif %}</span>
+            </div>
+            {% if cart_total < 2000 %}
+            <div class="shipping-note">
+                <i class="fas fa-info-circle"></i>
+                Free shipping on orders over ₹2,000
+            </div>
+            {% endif %}
+            <div class="summary-divider"></div>
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span>₹{{ grand_total }}</span>
+            </div>
+            <a href="{% url 'checkout' %}" class="btn-premium" style="width: 100%; justify-content: center; margin-top: 1.5rem; padding: 1rem;">
+                Proceed to Checkout <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="{% url 'product_list' %}" class="btn-outline" style="width: 100%; justify-content: center; margin-top: 0.75rem; padding: 0.8rem;">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- Empty Cart -->
     <div class="shop-main" style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 4rem; text-align: center;">
-        
-        <i class="fas fa-shopping-cart" style="font-size: 4rem; color: var(--text-secondary); margin-bottom: 2rem; opacity: 0.5;"></i>
+        <div class="empty-state-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
         <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Your cart is empty</h2>
         <p style="color: var(--text-secondary); margin-bottom: 2.5rem;">Looks like you haven't added any gear to your cart yet.</p>
-        
         <a href="{% url 'product_list' %}" class="btn-premium" style="display: inline-flex;">Continue Shopping</a>
-
     </div>
+    {% endif %}
 </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeQty(btn, delta) {
+    const form = btn.closest('.qty-form');
+    const input = form.querySelector('.qty-input');
+    let val = parseInt(input.value) + delta;
+    const max = parseInt(input.getAttribute('max')) || 99;
+    if (val < 1) val = 1;
+    if (val > max) val = max;
+    input.value = val;
+    form.submit();
+}
+</script>
 {% endblock %}

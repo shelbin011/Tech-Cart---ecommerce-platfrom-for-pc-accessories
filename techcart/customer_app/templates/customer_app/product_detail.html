@@ -1,6 +1,8 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
 
+{% block title %}{{ product.name }} | TechCart{% endblock %}
+
 {% block content %}
 <div class="product-detail-container">
     <div class="product-image-large">
@@ -20,7 +22,7 @@
 
         {% if product.stock > 0 %}
             <div class="product-stock">
-                <i class="fas fa-check-circle"></i> In Stock (Fast Shipping)
+                <i class="fas fa-check-circle"></i> In Stock ({{ product.stock }} available)
             </div>
         {% else %}
             <div class="product-stock out">
@@ -28,14 +30,85 @@
             </div>
         {% endif %}
 
-        <div class="action-buttons">
-            <a href="{% url 'cart' %}" class="btn-premium">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
-            </a>
+        {% if product.stock > 0 %}
+        <form method="POST" action="{% url 'add_to_cart' product.id %}" class="product-actions-form">
+            {% csrf_token %}
+            <div class="qty-selector">
+                <button type="button" class="qty-btn" onclick="changeDetailQty(-1)"><i class="fas fa-minus"></i></button>
+                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-input" id="detailQtyInput">
+                <button type="button" class="qty-btn" onclick="changeDetailQty(1)"><i class="fas fa-plus"></i></button>
+            </div>
+            <input type="hidden" name="next" value="{% url 'product_detail' product.id %}">
+            <div class="action-buttons">
+                <button type="submit" class="btn-premium">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+                {% if user.is_authenticated %}
+                <a href="{% url 'toggle_wishlist' product.id %}" class="btn-outline">
+                    <i class="fas fa-heart"></i> Wishlist
+                </a>
+                {% endif %}
+                <a href="{% url 'product_list' %}" class="btn-outline">
+                    <i class="fas fa-arrow-left"></i> Keep Shopping
+                </a>
+            </div>
+        </form>
+        {% else %}
+        <div class="action-buttons" style="margin-top: 1.5rem;">
             <a href="{% url 'product_list' %}" class="btn-outline">
                 <i class="fas fa-arrow-left"></i> Keep Shopping
             </a>
         </div>
+        {% endif %}
     </div>
 </div>
+
+{% if related_products %}
+<section class="section-premium" style="padding-top: 2rem;">
+    <div class="section-header">
+        <h2 class="section-title" style="font-size: 1.5rem;">You Might Also Like</h2>
+    </div>
+    <div class="product-grid">
+        {% for rp in related_products %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' rp.id %}" class="product-image-wrap">
+                {% if rp.image %}
+                <img src="{{ rp.image.url }}" alt="{{ rp.name }}">
+                {% else %}
+                <img src="{% static 'customer_app/img/product/p1.jpg' %}" alt="{{ rp.name }}">
+                {% endif %}
+            </a>
+            <div class="product-info">
+                <span class="product-cat">{{ rp.category.name|default:"Peripheral" }}</span>
+                <h3 class="product-name"><a href="{% url 'product_detail' rp.id %}">{{ rp.name }}</a></h3>
+                <div class="product-bottom">
+                    <span class="product-price">₹{{ rp.price }}</span>
+                    {% if rp.stock > 0 %}
+                    <form method="POST" action="{% url 'add_to_cart' rp.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="add-to-cart" title="Add to Cart">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeDetailQty(delta) {
+    const input = document.getElementById('detailQtyInput');
+    let val = parseInt(input.value) + delta;
+    const max = parseInt(input.getAttribute('max')) || 99;
+    if (val < 1) val = 1;
+    if (val > max) val = max;
+    input.value = val;
+}
+</script>
 {% endblock %}

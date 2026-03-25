@@ -1,6 +1,8 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
 
+{% block title %}TechCart | Premium PC Accessories{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
 <section class="hero">
@@ -65,9 +67,16 @@
                 <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
                 <div class="product-bottom">
                     <span class="product-price">₹{{ product.price }}</span>
-                    <a href="{% url 'cart' %}" class="add-to-cart" title="Add to Cart">
-                        <i class="fas fa-plus"></i>
-                    </a>
+                    {% if product.stock > 0 %}
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="add-to-cart" title="Add to Cart">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </form>
+                    {% else %}
+                    <span style="font-size: 0.75rem; color: #ef4444; font-weight: 600;">Out of Stock</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -78,5 +87,13 @@
         </div>
         {% endfor %}
     </div>
+
+    {% if latest_products %}
+    <div style="text-align: center; margin-top: 3rem;">
+        <a href="{% url 'product_list' %}" class="btn-outline" style="display: inline-flex; padding: 0.8rem 2rem;">
+            View All Products <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+        </a>
+    </div>
+    {% endif %}
 </section>
 {% endblock %}

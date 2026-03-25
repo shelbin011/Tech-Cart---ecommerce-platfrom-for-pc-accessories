@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechCart | Premium PC Accessories</title>
+    <title>{% block title %}TechCart | Premium PC Accessories{% endblock %}</title>
+    <meta name="description" content="TechCart - Your one-stop shop for premium PC accessories including keyboards, mice, headsets and more.">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Premium Styles -->
     <link rel="stylesheet" href="{% static 'customer_app/css/premium.css' %}">
     {% block extra_css %}{% endblock %}
@@ -21,23 +24,81 @@
             <nav class="nav-links">
                 <a href="{% url 'home' %}" class="nav-link">Home</a>
                 <a href="{% url 'product_list' %}" class="nav-link">Products</a>
+                <a href="{% url 'blog' %}" class="nav-link">Blog</a>
                 <a href="{% url 'contact' %}" class="nav-link">Contact</a>
             </nav>
 
+            <!-- Search Bar -->
+            <form action="{% url 'search' %}" method="GET" class="nav-search-form" id="navSearchForm">
+                <div class="nav-search-wrapper">
+                    <input type="text" name="q" placeholder="Search products..." class="nav-search-input" id="navSearchInput">
+                    <button type="submit" class="nav-search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+
             <div class="nav-icons">
-                <a href="#" class="icon-btn" title="Search"><i class="fas fa-search"></i></a>
-                <a href="{% url 'cart' %}" class="icon-btn" title="Cart"><i class="fas fa-shopping-bag"></i></a>
+                <a href="#" class="icon-btn search-toggle" title="Search" id="searchToggle"><i class="fas fa-search"></i></a>
+                
                 {% if user.is_authenticated %}
-                <div style="display: flex; gap:15px; align-items: center;">
-                    <span style="font-size:0.9rem; color: var(--text-secondary);">Hi, {{ user.username }}</span>
-                    <a href="{% url 'customer_logout' %}" class="icon-btn" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
+                <a href="{% url 'wishlist' %}" class="icon-btn" title="Wishlist"><i class="fas fa-heart"></i></a>
+                {% endif %}
+
+                <a href="{% url 'cart' %}" class="icon-btn cart-icon" title="Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    {% if cart_count %}
+                    <span class="cart-badge">{{ cart_count }}</span>
+                    {% endif %}
+                </a>
+
+                {% if user.is_authenticated %}
+                <div class="user-dropdown">
+                    <button class="icon-btn user-dropdown-toggle" title="Account">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="user-name-text">{{ user.username }}</span>
+                        <i class="fas fa-chevron-down" style="font-size:0.6rem; opacity:0.7;"></i>
+                    </button>
+                    <div class="user-dropdown-menu">
+                        <a href="{% url 'profile' %}"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="{% url 'order_history' %}"><i class="fas fa-box"></i> My Orders</a>
+                        <a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Wishlist</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'customer_logout' %}" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
                 </div>
                 {% else %}
                 <a href="{% url 'customer_login' %}" class="icon-btn" title="Login"><i class="far fa-user"></i></a>
                 {% endif %}
             </div>
+
+            <!-- Mobile toggle -->
+            <button class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
+
+    <!-- Messages / Toasts -->
+    {% if messages %}
+    <div class="toast-container" id="toastContainer">
+        {% for message in messages %}
+        <div class="toast toast-{{ message.tags }}" id="toast-{{ forloop.counter }}">
+            <div class="toast-icon">
+                {% if message.tags == 'success' %}
+                <i class="fas fa-check-circle"></i>
+                {% elif message.tags == 'error' %}
+                <i class="fas fa-exclamation-circle"></i>
+                {% elif message.tags == 'warning' %}
+                <i class="fas fa-exclamation-triangle"></i>
+                {% else %}
+                <i class="fas fa-info-circle"></i>
+                {% endif %}
+            </div>
+            <span class="toast-message">{{ message }}</span>
+            <button class="toast-close" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <main>
         {% block content %}{% endblock %}
@@ -60,22 +121,32 @@
                 <div class="footer-links">
                     <a href="{% url 'product_list' %}">All Products</a>
                     <a href="{% url 'cart' %}">Shopping Cart</a>
-                    <a href="{% url 'checkout' %}">Checkout</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'order_history' %}">My Orders</a>
+                    <a href="{% url 'wishlist' %}">Wishlist</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="footer-col">
                 <h4>Support</h4>
                 <div class="footer-links">
                     <a href="{% url 'contact' %}">Contact Us</a>
+                    <a href="{% url 'blog' %}">Blog</a>
                     <a href="#">FAQ</a>
                     <a href="#">Shipping & Returns</a>
                 </div>
             </div>
             <div class="footer-col">
-                <h4>Legal</h4>
+                <h4>Account</h4>
                 <div class="footer-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">My Profile</a>
+                    <a href="{% url 'order_history' %}">Order History</a>
+                    <a href="{% url 'customer_logout' %}">Logout</a>
+                    {% else %}
+                    <a href="{% url 'customer_login' %}">Login</a>
+                    <a href="{% url 'customer_register' %}">Register</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -85,5 +156,55 @@
     </footer>
 
     {% block extra_js %}{% endblock %}
+
+    <script>
+        // Auto-dismiss toast messages after 4s
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.toast');
+            toasts.forEach(function(toast, i) {
+                setTimeout(function() {
+                    toast.style.animation = 'slideOutRight 0.4s ease forwards';
+                    setTimeout(() => toast.remove(), 400);
+                }, 4000 + i * 500);
+            });
+
+            // Search toggle
+            const searchToggle = document.getElementById('searchToggle');
+            const searchForm = document.getElementById('navSearchForm');
+            if (searchToggle && searchForm) {
+                searchToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    searchForm.classList.toggle('active');
+                    if (searchForm.classList.contains('active')) {
+                        document.getElementById('navSearchInput').focus();
+                    }
+                });
+            }
+
+            // Mobile toggle
+            const mobileToggle = document.getElementById('mobileToggle');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+
+            // User dropdown
+            const dropdownToggle = document.querySelector('.user-dropdown-toggle');
+            const dropdownMenu = document.querySelector('.user-dropdown-menu');
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    dropdownMenu.classList.toggle('active');
+                });
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.user-dropdown')) {
+                        dropdownMenu.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

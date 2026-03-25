@@ -49,6 +49,7 @@
                                     {% endif %}
                                 </td>
                                 <td>
+                                    <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-info" style="margin-right:5px;">Edit</a>
                                     <form action="{% url 'delete_product' product.id %}" method="POST" style="display:inline;">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to permanently delete this product?');">Delete</button>

@@ -1,0 +1,35 @@
+{% extends 'admin_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row column_title">
+    <div class="col-md-12">
+        <div class="page_title">
+            <h2>Message Detail</h2>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0">
+                    <h2>From: {{ msg.first_name }} {{ msg.last_name }}</h2>
+                </div>
+            </div>
+            <div class="full padding_infor_info">
+                <p><strong>Email:</strong> <a href="mailto:{{ msg.email }}">{{ msg.email }}</a></p>
+                <p><strong>Date:</strong> {{ msg.created_at|date:"M d, Y h:i A" }}</p>
+                <hr>
+                <h5>Message:</h5>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 10px;">
+                    <p style="white-space: pre-wrap;">{{ msg.message }}</p>
+                </div>
+                <br>
+                <a href="{% url 'admin_messages' %}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Messages</a>
+                <a href="mailto:{{ msg.email }}" class="btn btn-primary"><i class="fa fa-reply"></i> Reply via Email</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

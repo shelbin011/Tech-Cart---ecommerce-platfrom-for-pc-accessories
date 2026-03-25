@@ -1,6 +1,8 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
 
+{% block title %}Contact Us | TechCart{% endblock %}
+
 {% block content %}
 <div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1000px;">
     
@@ -44,26 +46,27 @@
         <div style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 3rem;">
             <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem;">Send us a message</h2>
             
-            <form style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <form method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                {% csrf_token %}
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                     <div>
-                        <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">First Name</label>
-                        <input type="text" placeholder="John" style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
+                        <label class="form-label">First Name *</label>
+                        <input type="text" name="first_name" placeholder="John" required class="form-input">
                     </div>
                     <div>
-                        <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Last Name</label>
-                        <input type="text" placeholder="Doe" style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="last_name" placeholder="Doe" class="form-input">
                     </div>
                 </div>
 
                 <div>
-                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Email Address</label>
-                    <input type="email" placeholder="john@example.com" style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" name="email" placeholder="john@example.com" required class="form-input">
                 </div>
 
                 <div>
-                    <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Message</label>
-                    <textarea placeholder="How can we help you?" rows="5" style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; resize: vertical; font-family: inherit;"></textarea>
+                    <label class="form-label">Message *</label>
+                    <textarea name="message" placeholder="How can we help you?" rows="5" required class="form-input" style="resize: vertical; font-family: inherit;"></textarea>
                 </div>
 
                 <div style="margin-top: 1rem;">

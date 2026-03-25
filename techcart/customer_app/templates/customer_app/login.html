@@ -26,12 +26,12 @@
             
             <div>
                 <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Username</label>
-                <input type="text" name="username" placeholder="johndoe" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
+                <input type="text" name="username" placeholder="johndoe" required minlength="3" pattern="^[a-zA-Z0-9_]{3,15}$" title="Username must be 3-15 characters and contain only letters, numbers, and underscores." style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
             </div>
 
             <div>
                 <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem;">Password</label>
-                <input type="password" name="password" placeholder="••••••••" required style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
+                <input type="password" name="password" placeholder="••••••••" required minlength="6" title="Password must be at least 6 characters long." style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white; font-family: inherit;">
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">

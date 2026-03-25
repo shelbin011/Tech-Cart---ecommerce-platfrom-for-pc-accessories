@@ -1,0 +1,78 @@
+{% extends 'admin_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row column_title">
+    <div class="col-md-12">
+        <div class="page_title">
+            <h2>Order Management</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="row" style="margin-bottom: 15px;">
+    <div class="col-md-12">
+        <a href="{% url 'admin_order_list' %}" class="btn btn-{% if not current_status %}primary{% else %}outline-primary{% endif %} btn-sm">All</a>
+        <a href="{% url 'admin_order_list' %}?status=pending" class="btn btn-{% if current_status == 'pending' %}warning{% else %}outline-warning{% endif %} btn-sm">Pending</a>
+        <a href="{% url 'admin_order_list' %}?status=processing" class="btn btn-{% if current_status == 'processing' %}info{% else %}outline-info{% endif %} btn-sm">Processing</a>
+        <a href="{% url 'admin_order_list' %}?status=shipped" class="btn btn-{% if current_status == 'shipped' %}primary{% else %}outline-primary{% endif %} btn-sm">Shipped</a>
+        <a href="{% url 'admin_order_list' %}?status=delivered" class="btn btn-{% if current_status == 'delivered' %}success{% else %}outline-success{% endif %} btn-sm">Delivered</a>
+        <a href="{% url 'admin_order_list' %}?status=cancelled" class="btn btn-{% if current_status == 'cancelled' %}danger{% else %}outline-danger{% endif %} btn-sm">Cancelled</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0">
+                    <h2>{% if current_status %}{{ current_status|title }} {% endif %}Orders ({{ orders.count }})</h2>
+                </div>
+            </div>
+            <div class="table_section padding_infor_info">
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td><strong>#{{ order.id }}</strong></td>
+                                <td>{{ order.full_name }}</td>
+                                <td>{{ order.email }}</td>
+                                <td>{{ order.items.count }}</td>
+                                <td>₹{{ order.total_amount }}</td>
+                                <td>
+                                    <span class="badge badge-{% if order.status == 'delivered' %}success{% elif order.status == 'shipped' %}info{% elif order.status == 'processing' %}warning{% elif order.status == 'cancelled' %}danger{% else %}secondary{% endif %}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'admin_order_detail' order.id %}" class="btn btn-sm btn-primary">View</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center">No orders found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

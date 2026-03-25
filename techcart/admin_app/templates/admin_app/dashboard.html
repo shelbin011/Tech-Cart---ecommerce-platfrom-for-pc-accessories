@@ -29,13 +29,13 @@
       <div class="full counter_section margin_bottom_30">
          <div class="couter_icon">
             <div>
-               <i class="fa fa-tags green_color"></i>
+               <i class="fa fa-shopping-cart green_color"></i>
             </div>
          </div>
          <div class="counter_no">
             <div>
-               <p class="total_no">{{ total_categories }}</p>
-               <p class="head_couter">Categories</p>
+               <p class="total_no">{{ total_orders }}</p>
+               <p class="head_couter">Total Orders</p>
             </div>
          </div>
       </div>
@@ -59,6 +59,40 @@
       <div class="full counter_section margin_bottom_30">
          <div class="couter_icon">
             <div>
+               <i class="fa fa-inr green_color"></i>
+            </div>
+         </div>
+         <div class="counter_no">
+            <div>
+               <p class="total_no">₹{{ total_revenue }}</p>
+               <p class="head_couter">Revenue</p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Second row: categories, out-of-stock, pending orders -->
+<div class="row column1">
+   <div class="col-md-6 col-lg-4">
+      <div class="full counter_section margin_bottom_30">
+         <div class="couter_icon">
+            <div>
+               <i class="fa fa-tags blue1_color"></i>
+            </div>
+         </div>
+         <div class="counter_no">
+            <div>
+               <p class="total_no">{{ total_categories }}</p>
+               <p class="head_couter">Categories</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-6 col-lg-4">
+      <div class="full counter_section margin_bottom_30">
+         <div class="couter_icon">
+            <div>
                <i class="fa fa-exclamation-triangle red_color"></i>
             </div>
          </div>
@@ -70,8 +104,73 @@
          </div>
       </div>
    </div>
+   <div class="col-md-6 col-lg-4">
+      <div class="full counter_section margin_bottom_30">
+         <div class="couter_icon">
+            <div>
+               <i class="fa fa-clock-o yellow_color"></i>
+            </div>
+         </div>
+         <div class="counter_no">
+            <div>
+               <p class="total_no">{{ pending_orders }}</p>
+               <p class="head_couter">Pending Orders</p>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
 
+<!-- Recent Orders -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0">
+                    <h2>Recent Orders</h2>
+                </div>
+            </div>
+            <div class="table_section padding_infor_info">
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in recent_orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.full_name }}</td>
+                                <td>₹{{ order.total_amount }}</td>
+                                <td>
+                                    <span class="badge badge-{% if order.status == 'delivered' %}success{% elif order.status == 'shipped' %}info{% elif order.status == 'processing' %}warning{% elif order.status == 'cancelled' %}danger{% else %}secondary{% endif %}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td><a href="{% url 'admin_order_detail' order.id %}" class="btn btn-sm btn-primary">View</a></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No orders received yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Products -->
 <div class="row">
     <div class="col-md-12">
         <div class="white_shd full margin_bottom_30">

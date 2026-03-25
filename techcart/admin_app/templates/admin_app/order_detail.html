@@ -1,0 +1,115 @@
+{% extends 'admin_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row column_title">
+    <div class="col-md-12">
+        <div class="page_title">
+            <h2>Order #{{ order.id }} Details</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Order Info -->
+    <div class="col-md-6">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0"><h2>Customer Information</h2></div>
+            </div>
+            <div class="full padding_infor_info">
+                <p><strong>Name:</strong> {{ order.full_name }}</p>
+                <p><strong>Email:</strong> {{ order.email }}</p>
+                <p><strong>Phone:</strong> {{ order.phone|default:"N/A" }}</p>
+                <p><strong>Address:</strong> {{ order.address }}</p>
+                <p><strong>City:</strong> {{ order.city }}, {{ order.zipcode }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Status -->
+    <div class="col-md-6">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0"><h2>Order Status</h2></div>
+            </div>
+            <div class="full padding_infor_info">
+                <p><strong>Order Date:</strong> {{ order.created_at|date:"M d, Y h:i A" }}</p>
+                <p><strong>Payment Method:</strong> {{ order.payment_method|upper }}</p>
+                <p><strong>Total Amount:</strong> <span style="font-size: 1.3rem; font-weight: bold; color: #28a745;">₹{{ order.total_amount }}</span></p>
+                <p><strong>Current Status:</strong> 
+                    <span class="badge badge-{% if order.status == 'delivered' %}success{% elif order.status == 'shipped' %}info{% elif order.status == 'processing' %}warning{% elif order.status == 'cancelled' %}danger{% else %}secondary{% endif %}" style="font-size: 0.9rem; padding: 5px 10px;">
+                        {{ order.get_status_display }}
+                    </span>
+                </p>
+                <hr>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label><strong>Update Status:</strong></label>
+                        <select name="status" class="form-control">
+                            <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="processing" {% if order.status == 'processing' %}selected{% endif %}>Processing</option>
+                            <option value="shipped" {% if order.status == 'shipped' %}selected{% endif %}>Shipped</option>
+                            <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                            <option value="cancelled" {% if order.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Items -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white_shd full margin_bottom_30">
+            <div class="full graph_head">
+                <div class="heading1 margin_0"><h2>Order Items</h2></div>
+            </div>
+            <div class="table_section padding_infor_info">
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                            <tr>
+                                <td>
+                                    {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width:50px; height:50px; object-fit:cover; border-radius:5px;">
+                                    {% else %}
+                                    <i class="fa fa-image" style="font-size:30px; color:#ccc;"></i>
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.product.name }}</td>
+                                <td>₹{{ item.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td><strong>₹{{ item.get_total }}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right"><strong>Grand Total:</strong></td>
+                                <td><strong style="font-size:1.2rem;">₹{{ order.total_amount }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'admin_order_list' %}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Orders</a>
+{% endblock %}

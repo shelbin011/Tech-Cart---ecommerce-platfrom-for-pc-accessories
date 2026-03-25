@@ -1,0 +1,59 @@
+{% extends "customer_app/base.html" %}
+{% load static %}
+
+{% block title %}My Orders | TechCart{% endblock %}
+
+{% block content %}
+<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1000px;">
+    
+    <div class="shop-header">
+        <h1 class="shop-title">My Orders</h1>
+        <span style="color: var(--text-secondary);">{{ orders.count }} order(s)</span>
+    </div>
+
+    {% if orders %}
+    <div class="orders-list">
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-card-header">
+                <div>
+                    <span class="order-number">Order #{{ order.id }}</span>
+                    <span class="order-date">{{ order.created_at|date:"M d, Y" }}</span>
+                </div>
+                <span class="order-status status-{{ order.status }}">{{ order.get_status_display }}</span>
+            </div>
+            <div class="order-card-body">
+                <div class="order-items-preview">
+                    {% for item in order.items.all|slice:":3" %}
+                    <div class="order-item-mini">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% if order.items.count > 3 %}
+                    <div class="order-item-mini more">+{{ order.items.count|add:"-3" }}</div>
+                    {% endif %}
+                </div>
+                <div class="order-card-info">
+                    <span class="order-total">₹{{ order.total_amount }}</span>
+                    <a href="{% url 'order_detail' order.id %}" class="btn-outline" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">
+                        View Details <i class="fas fa-arrow-right" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 4rem; text-align: center;">
+        <div class="empty-state-icon">
+            <i class="fas fa-box-open"></i>
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">No orders yet</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Start shopping and your orders will appear here.</p>
+        <a href="{% url 'product_list' %}" class="btn-premium" style="display: inline-flex;">Browse Products</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

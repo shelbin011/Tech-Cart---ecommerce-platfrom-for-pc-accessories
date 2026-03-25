@@ -1,0 +1,60 @@
+{% extends "customer_app/base.html" %}
+{% load static %}
+
+{% block title %}Wishlist | TechCart{% endblock %}
+
+{% block content %}
+<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1000px;">
+    
+    <div class="shop-header">
+        <h1 class="shop-title">My Wishlist</h1>
+        <span style="color: var(--text-secondary);">{{ wishlist_items.count }} item(s)</span>
+    </div>
+
+    {% if wishlist_items %}
+    <div class="product-grid">
+        {% for wish in wishlist_items %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' wish.product.id %}" class="product-image-wrap">
+                {% if wish.product.image %}
+                <img src="{{ wish.product.image.url }}" alt="{{ wish.product.name }}">
+                {% else %}
+                <img src="{% static 'customer_app/img/product/p1.jpg' %}" alt="{{ wish.product.name }}">
+                {% endif %}
+                <a href="{% url 'toggle_wishlist' wish.product.id %}" class="wishlist-btn active" title="Remove from Wishlist">
+                    <i class="fas fa-heart"></i>
+                </a>
+            </a>
+            <div class="product-info">
+                <span class="product-cat">{{ wish.product.category.name|default:"Peripheral" }}</span>
+                <h3 class="product-name"><a href="{% url 'product_detail' wish.product.id %}">{{ wish.product.name }}</a></h3>
+                <div class="product-bottom">
+                    <span class="product-price">₹{{ wish.product.price }}</span>
+                    {% if wish.product.stock > 0 %}
+                    <form method="POST" action="{% url 'add_to_cart' wish.product.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{% url 'wishlist' %}">
+                        <button type="submit" class="add-to-cart" title="Add to Cart">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </form>
+                    {% else %}
+                    <span style="font-size: 0.8rem; color: #ef4444;">Out of Stock</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 4rem; text-align: center;">
+        <div class="empty-state-icon">
+            <i class="fas fa-heart"></i>
+        </div>
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Your wishlist is empty</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Save items you love to your wishlist.</p>
+        <a href="{% url 'product_list' %}" class="btn-premium" style="display: inline-flex;">Browse Products</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -5,8 +5,9 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Add Category</h4>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Add Category</h4>
+                <a href="{% url 'admin_category_list' %}" class="btn btn-secondary btn-sm">View Added Categories</a>
             </div>
             <div class="card-body">
                 {% if messages %}

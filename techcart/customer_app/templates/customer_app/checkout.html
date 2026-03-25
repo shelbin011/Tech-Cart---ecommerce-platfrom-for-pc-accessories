@@ -1,55 +1,136 @@
 {% extends "customer_app/base.html" %}
 {% load static %}
 
+{% block title %}Checkout | TechCart{% endblock %}
+
 {% block content %}
-<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1100px; margin-left: auto; margin-right: auto;">
     
-    <!-- Checkout Form -->
-    <div class="shop-main" style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 2rem;">
-        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">Billing Details</h2>
-        
-        <form style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-            <div style="grid-column: 1 / span 2;">
-                <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">Full Name</label>
-                <input type="text" placeholder="John Doe" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
-            </div>
-            
-            <div style="grid-column: 1 / span 2;">
-                <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">Email Address</label>
-                <input type="email" placeholder="john@example.com" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
-            </div>
-
-            <div style="grid-column: 1 / span 2;">
-                <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">Shipping Address</label>
-                <input type="text" placeholder="123 Gaming Street" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
-            </div>
-
-            <div>
-                <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">City</label>
-                <input type="text" placeholder="New York" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
-            </div>
-            <div>
-                <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">Zip / Postcode</label>
-                <input type="text" placeholder="10001" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.02); color: white;">
-            </div>
-
-            <div style="grid-column: 1 / span 2; margin-top: 1.5rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem;">
-                <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;">Payment Method</h3>
-                <div style="display: flex; gap: 1rem;">
-                    <label style="padding: 1rem; border: 1px solid var(--accent-color); border-radius: 8px; background: rgba(99,102,241,0.1); flex: 1; text-align: center; cursor: pointer; color: white;">
-                        <input type="radio" name="payment" checked style="margin-right: 0.5rem;"> Credit Card
-                    </label>
-                    <label style="padding: 1rem; border: 1px solid var(--card-border); border-radius: 8px; background: rgba(255,255,255,0.02); flex: 1; text-align: center; cursor: pointer; color: var(--text-secondary);">
-                        <input type="radio" name="payment" style="margin-right: 0.5rem;"> PayPal
-                    </label>
-                </div>
-            </div>
-            
-            <div style="grid-column: 1 / span 2; margin-top: 1rem;">
-                <button type="button" class="btn-premium" style="width: 100%; padding: 1rem; justify-content: center;">Complete Purchase</button>
-            </div>
-        </form>
+    <div class="shop-header">
+        <h1 class="shop-title">Checkout</h1>
     </div>
 
+    <div style="display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start;">
+        <!-- Checkout Form -->
+        <div class="shop-main" style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 2rem;">
+            <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--card-border);">
+                <i class="fas fa-shipping-fast" style="color: var(--accent-color); margin-right: 0.5rem;"></i>
+                Shipping Details
+            </h2>
+            
+            <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;" id="checkoutForm">
+                {% csrf_token %}
+                <div style="grid-column: 1 / span 2;">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" name="full_name" id="ck_name" placeholder="John Doe" required minlength="3" pattern="^[a-zA-Z\s]+$" title="Name should only contain letters and spaces, at least 3 characters." class="form-input" value="{{ user.get_full_name }}" oninput="this.setCustomValidity('')">
+                </div>
+                
+                <div>
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" name="email" id="ck_email" placeholder="john@example.com" required pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Please enter a valid email address." class="form-input" value="{{ user.email }}" oninput="this.setCustomValidity('')">
+                </div>
+
+                <div>
+                    <label class="form-label">Phone Number *</label>
+                    <input type="tel" name="phone" id="ck_phone" placeholder="9876543210" required pattern="^[0-9]{10}$" title="Phone number must be exactly 10 digits." class="form-input" value="{{ user.phone|default:'' }}" oninput="this.setCustomValidity('')">
+                </div>
+
+                <div style="grid-column: 1 / span 2;">
+                    <label class="form-label">Shipping Address *</label>
+                    <input type="text" name="address" id="ck_address" placeholder="123 Gaming Street" required minlength="10" title="Please provide a complete address (at least 10 characters)." class="form-input" value="{{ user.address|default:'' }}" oninput="this.setCustomValidity('')">
+                </div>
+
+                <div>
+                    <label class="form-label">City *</label>
+                    <input type="text" name="city" id="ck_city" placeholder="Mumbai" required minlength="2" pattern="^[a-zA-Z\s]+$" title="City name should only contain letters and spaces." class="form-input" value="{{ user.city|default:'' }}" oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <label class="form-label">Zip / Postcode *</label>
+                    <input type="text" name="zipcode" id="ck_zipcode" placeholder="400001" required pattern="^[0-9]{6}$" title="Zip code must be exactly 6 digits." class="form-input" value="{{ user.zipcode|default:'' }}" oninput="this.setCustomValidity('')">
+                </div>
+
+                <div style="grid-column: 1 / span 2; margin-top: 1.5rem; border-top: 1px solid var(--card-border); padding-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">
+                        <i class="fas fa-credit-card" style="color: var(--accent-color); margin-right: 0.5rem;"></i>
+                        Payment Method
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <label class="payment-option active" id="payment-cod">
+                            <input type="radio" name="payment" value="cod" checked onchange="selectPayment(this)">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Cash on Delivery</span>
+                        </label>
+                        <label class="payment-option" id="payment-card">
+                            <input type="radio" name="payment" value="card" onchange="selectPayment(this)">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Credit Card</span>
+                        </label>
+                        <label class="payment-option" id="payment-upi">
+                            <input type="radio" name="payment" value="upi" onchange="selectPayment(this)">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>UPI</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div style="grid-column: 1 / span 2; margin-top: 1rem;">
+                    <button type="submit" class="btn-premium" style="width: 100%; padding: 1rem; justify-content: center; font-size: 1.05rem;">
+                        <i class="fas fa-lock" style="margin-right: 0.5rem;"></i> Place Order — ₹{{ grand_total }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary" style="position: sticky; top: 6rem;">
+            <h3 class="summary-title">Order Summary</h3>
+            
+            <div class="summary-items">
+                {% for item in cart_items %}
+                <div class="summary-item">
+                    <div class="summary-item-img">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        {% endif %}
+                        <span class="summary-item-qty">{{ item.quantity }}</span>
+                    </div>
+                    <div class="summary-item-info">
+                        <span class="summary-item-name">{{ item.product.name }}</span>
+                        <span class="summary-item-price">₹{{ item.line_total }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="summary-divider"></div>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>₹{{ cart_total }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span>{% if shipping == 0 %}<span class="free-tag">FREE</span>{% else %}₹{{ shipping }}{% endif %}</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span>₹{{ grand_total }}</span>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 10px; font-size: 0.85rem; color: #22c55e;">
+                <i class="fas fa-shield-alt" style="margin-right: 0.5rem;"></i>
+                Your payment information is secure & encrypted
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function selectPayment(radio) {
+    document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('active'));
+    radio.closest('.payment-option').classList.add('active');
+}
+</script>
 {% endblock %}

@@ -1,624 +1,154 @@
+{% extends "customer_app/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="zxx" class="no-js">
 
-<head>
-    <!-- Mobile Specific Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon-->
-    <link rel="shortcut icon" href="{% static 'customer_app/img/fav.png' %}">
-    <!-- Author Meta -->
-    <meta name="author" content="CodePixar">
-    <!-- Meta Description -->
-    <meta name="description" content="">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="">
-    <!-- meta character set -->
-    <meta charset="UTF-8">
-    <!-- Site Title -->
-    <title>Karma Shop</title>
-    <!--
-			CSS
-			============================================= -->
-    <link rel="stylesheet" href="{% static 'customer_app/css/linearicons.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/owl.carousel.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/nice-select.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/nouislider.min.css' %}">
-    <link rel="stylesheet" href="{% static 'customer_app/css/ion.rangeSlider.css' %}" />
-    <link rel="stylesheet" href="{% static 'customer_app/css/ion.rangeSlider.skinFlat.css' %}" />
-    <link rel="stylesheet" href="{% static 'customer_app/css/main.css' %}">
-</head>
+{% block title %}Blog | TechCart{% endblock %}
 
-<body>
+{% block content %}
+<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1100px;">
+    
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">TechCart Blog</h1>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+            Stay updated with the latest tech news, product reviews, and gaming setup guides.
+        </p>
+    </div>
 
-    <!-- Start Header Area -->
-	<header class="header_area sticky-header">
-		<div class="main_menu">
-			<nav class="navbar navbar-expand-lg navbar-light main_box">
-				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="{% url 'home' %}"><img src="{% static 'customer_app/img/logo.png' %}" alt=""></a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Shop</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">Shop Category</a></li>
-									<li class="nav-item"><a class="nav-link" href="#">Product Details</a></li>
-									<li class="nav-item"><a class="nav-link" href="{% url 'checkout' %}">Product Checkout</a></li>
-									<li class="nav-item"><a class="nav-link" href="{% url 'cart' %}">Shopping Cart</a></li>
-									<li class="nav-item"><a class="nav-link" href="#">Confirmation</a></li>
-								</ul>
-							</li>
-							<li class="nav-item submenu dropdown active">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item active"><a class="nav-link" href="{% url 'blog' %}">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="#">Blog Details</a></li>
-								</ul>
-							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="{% url 'customer_login' %}">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="#">Tracking</a></li>
-									<li class="nav-item"><a class="nav-link" href="#">Elements</a></li>
-								</ul>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</div>
-		<div class="search_input" id="search_input_box">
-			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
-		</div>
-	</header>
-	<!-- End Header Area -->
-
-    <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
-        <div class="container">
-            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-                <div class="col-first">
-                    <h1>Blog Page</h1>
-                    <nav class="d-flex align-items-center">
-                        <a href="{% url 'home' %}">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="{% url 'product_list' %}">Blog</a>
-                    </nav>
-                </div>
-            </div>
+    <!-- Blog Category Cards -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 4rem;">
+        <div class="blog-category-card" style="background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1)); border: 1px solid rgba(99,102,241,0.2); border-radius: 16px; padding: 2rem; text-align: center;">
+            <i class="fas fa-keyboard" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Peripherals</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">Reviews & recommendations</p>
         </div>
-    </section>
-    <!-- End Banner Area -->
-
-    <!--================Blog Categorie Area =================-->
-    <section class="blog_categorie_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="categories_post">
-                        <img src="{% static 'customer_app/img/blog/cat-post/cat-post-3.jpg' %}" alt="post">
-                        <div class="categories_details">
-                            <div class="categories_text">
-                                <a href="blog-details.html">
-                                    <h5>Social Life</h5>
-                                </a>
-                                <div class="border_line"></div>
-                                <p>Enjoy your social life together</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="categories_post">
-                        <img src="{% static 'customer_app/img/blog/cat-post/cat-post-2.jpg' %}" alt="post">
-                        <div class="categories_details">
-                            <div class="categories_text">
-                                <a href="blog-details.html">
-                                    <h5>Politics</h5>
-                                </a>
-                                <div class="border_line"></div>
-                                <p>Be a part of politics</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="categories_post">
-                        <img src="{% static 'customer_app/img/blog/cat-post/cat-post-1.jpg' %}" alt="post">
-                        <div class="categories_details">
-                            <div class="categories_text">
-                                <a href="blog-details.html">
-                                    <h5>Food</h5>
-                                </a>
-                                <div class="border_line"></div>
-                                <p>Let the food be finished</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="blog-category-card" style="background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.1)); border: 1px solid rgba(34,197,94,0.2); border-radius: 16px; padding: 2rem; text-align: center;">
+            <i class="fas fa-desktop" style="font-size: 2.5rem; color: #22c55e; margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Setup Guides</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">Build your dream station</p>
         </div>
-    </section>
-    <!--================Blog Categorie Area =================-->
-
-    <!--================Blog Area =================-->
-    <section class="blog_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="blog_left_sidebar">
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="{% static 'customer_app/img/blog/main-blog/m-blog-1.jpg' %}" alt="">
-                                    <div class="blog_details">
-                                        <a href="#">
-                                            <h2>Astronomy Binoculars A Great Alternative</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="#" class="white_bg_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="{% static 'customer_app/img/blog/main-blog/m-blog-2.jpg' %}" alt="">
-                                    <div class="blog_details">
-                                        <a href="#">
-                                            <h2>The Basics Of Buying A Telescope</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="#" class="white_bg_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="{% static 'customer_app/img/blog/main-blog/m-blog-3.jpg' %}" alt="">
-                                    <div class="blog_details">
-                                        <a href="#">
-                                            <h2>The Glossary Of Telescopes</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="#" class="white_bg_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="{% static 'customer_app/img/blog/main-blog/m-blog-4.jpg' %}" alt="">
-                                    <div class="blog_details">
-                                        <a href="#">
-                                            <h2>The Night Sky</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="#" class="white_bg_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="{% static 'customer_app/img/blog/main-blog/m-blog-5.jpg' %}" alt="">
-                                    <div class="blog_details">
-                                        <a href="#">
-                                            <h2>Telescopes 101</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="#" class="white_bg_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <span aria-hidden="true">
-                                            <span class="lnr lnr-chevron-left"></span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a href="#" class="page-link">01</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">02</a></li>
-                                <li class="page-item"><a href="#" class="page-link">03</a></li>
-                                <li class="page-item"><a href="#" class="page-link">04</a></li>
-                                <li class="page-item"><a href="#" class="page-link">09</a></li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <span aria-hidden="true">
-                                            <span class="lnr lnr-chevron-right"></span>
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="blog_right_sidebar">
-                        <aside class="single_sidebar_widget search_widget">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search Posts" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><i class="lnr lnr-magnifier"></i></button>
-                                </span>
-                            </div><!-- /input-group -->
-                            <div class="br"></div>
-                        </aside>
-                        <aside class="single_sidebar_widget author_widget">
-                            <img class="author_img rounded-circle" src="{% static 'customer_app/img/blog/author.png' %}" alt="">
-                            <h4>Charlie Barber</h4>
-                            <p>Senior blog writer</p>
-                            <div class="social_icon">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-github"></i></a>
-                                <a href="#"><i class="fa fa-behance"></i></a>
-                            </div>
-                            <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you
-                                should have to spend money on boot camp when you can get. Boot camps have itssuppor
-                                ters andits detractors.</p>
-                            <div class="br"></div>
-                        </aside>
-                        <aside class="single_sidebar_widget popular_post_widget">
-                            <h3 class="widget_title">Popular Posts</h3>
-                            <div class="media post_item">
-                                <img src="{% static 'customer_app/img/blog/popular-post/post1.jpg' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>Space The Final Frontier</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="{% static 'customer_app/img/blog/popular-post/post2.jpg' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="{% static 'customer_app/img/blog/popular-post/post3.jpg' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                    <p>03 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="{% static 'customer_app/img/blog/popular-post/post4.jpg' %}" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                    <p>01 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="br"></div>
-                        </aside>
-                        <aside class="single_sidebar_widget ads_widget">
-                            <a href="#"><img class="img-fluid" src="{% static 'customer_app/img/blog/add.jpg' %}" alt=""></a>
-                            <div class="br"></div>
-                        </aside>
-                        <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title">Post Catgories</h4>
-                            <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Technology</p>
-                                        <p>37</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Lifestyle</p>
-                                        <p>24</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Fashion</p>
-                                        <p>59</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Art</p>
-                                        <p>29</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Food</p>
-                                        <p>15</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Architecture</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Adventure</p>
-                                        <p>44</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="br"></div>
-                        </aside>
-                        <aside class="single-sidebar-widget newsletter_widget">
-                            <h4 class="widget_title">Newsletter</h4>
-                            <p>
-                                Here, I focus on a range of items and features that we use in life without
-                                giving them a second thought.
-                            </p>
-                            <div class="form-group d-flex flex-row">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></div>
-                                    </div>
-                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email'">
-                                </div>
-                                <a href="#" class="bbtns">Subcribe</a>
-                            </div>
-                            <p class="text-bottom">You can unsubscribe at any time</p>
-                            <div class="br"></div>
-                        </aside>
-                        <aside class="single-sidebar-widget tag_cloud_widget">
-                            <h4 class="widget_title">Tag Clouds</h4>
-                            <ul class="list">
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Architecture</a></li>
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Food</a></li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Lifestyle</a></li>
-                                <li><a href="#">Art</a></li>
-                                <li><a href="#">Adventure</a></li>
-                                <li><a href="#">Food</a></li>
-                                <li><a href="#">Lifestyle</a></li>
-                                <li><a href="#">Adventure</a></li>
-                            </ul>
-                        </aside>
-                    </div>
-                </div>
-            </div>
+        <div class="blog-category-card" style="background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(249,115,22,0.1)); border: 1px solid rgba(245,158,11,0.2); border-radius: 16px; padding: 2rem; text-align: center;">
+            <i class="fas fa-gamepad" style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Gaming</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">Tips, tricks & esports</p>
         </div>
-    </section>
-    <!--================Blog Area =================-->
+    </div>
 
-    <!-- start footer Area -->
-    <footer class="footer-area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3  col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>About Us</h6>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore dolore
-                            magna aliqua.
-                        </p>
-                    </div>
+    <!-- Blog Posts -->
+    <div class="blog-posts-grid">
+        
+        <!-- Blog Post 1 -->
+        <article class="blog-card">
+            <div class="blog-card-image">
+                <div style="width:100%; height:220px; background: linear-gradient(135deg, #1a1035, #2d1b69); display:flex; align-items:center; justify-content:center; border-radius: 12px 12px 0 0;">
+                    <i class="fas fa-keyboard" style="font-size: 4rem; color: rgba(99,102,241,0.5);"></i>
                 </div>
-                <div class="col-lg-4  col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Newsletter</h6>
-                        <p>Stay update with our latest</p>
-                        <div class="" id="mc_embed_signup">
-
-                            <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="form-inline">
-
-                                <div class="d-flex flex-row">
-
-                                    <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Enter Email '" required="" type="email">
-
-
-                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
-                                            aria-hidden="true"></i></button>
-                                    <div style="position: absolute; left: -5000px;">
-                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
-                                            type="text">
-                                    </div>
-
-                                    <!-- <div class="col-lg-4 col-md-4">
-                                                    <button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-                                                </div>  -->
-                                </div>
-                                <div class="info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3  col-md-6 col-sm-6">
-                    <div class="single-footer-widget mail-chimp">
-                        <h6 class="mb-20">Instragram Feed</h6>
-                        <ul class="instafeed d-flex flex-wrap">
-                            <li><img src="{% static 'customer_app/img/i1.jpg' %}" alt=""></li>
-                            <li><img src="{% static 'customer_app/img/i2.jpg' %}" alt=""></li>
-                            <li><img src="{% static 'customer_app/img/i3.jpg' %}" alt=""></li>
-                            <li><img src="{% static 'customer_app/img/i4.jpg' %}" alt=""></li>
-                            <li><img src="{% static 'customer_app/img/i5.jpg' %}" alt=""></li>
-                            <li><img src="{% static 'customer_app/img/i6.jpg' %}" alt=""></li>
-                            <li><img src="{% static 'customer_app/img/i7.jpg' %}" alt=""></li>
-                            <li><img src="{% static 'customer_app/img/i8.jpg' %}" alt=""></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Follow Us</h6>
-                        <p>Let us be social</p>
-                        <div class="footer-social d-flex align-items-center">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
-                        </div>
-                    </div>
-                </div>
+                <span class="blog-tag">Peripherals</span>
             </div>
-            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-                <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</p>
+            <div class="blog-card-content">
+                <div class="blog-meta">
+                    <span><i class="fas fa-calendar-alt"></i> Mar 15, 2026</span>
+                    <span><i class="fas fa-clock"></i> 5 min read</span>
+                </div>
+                <h2 class="blog-title">Top 10 Mechanical Keyboards for 2026</h2>
+                <p class="blog-excerpt">Discover the best mechanical keyboards that combine premium build quality, customization options, and typing feel for both gamers and professionals.</p>
+                <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
             </div>
-        </div>
-    </footer>
-    <!-- End footer Area -->
+        </article>
 
-    <script src="{% static 'customer_app/js/vendor/jquery-2.2.4.min.js' %}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	 crossorigin="anonymous"></script>
-	<script src="{% static 'customer_app/js/vendor/bootstrap.min.js' %}"></script>
-	<script src="{% static 'customer_app/js/jquery.ajaxchimp.min.js' %}"></script>
-	<script src="{% static 'customer_app/js/jquery.nice-select.min.js' %}"></script>
-	<script src="{% static 'customer_app/js/jquery.sticky.js' %}"></script>
-    <script src="{% static 'customer_app/js/nouislider.min.js' %}"></script>
-	<script src="{% static 'customer_app/js/jquery.magnific-popup.min.js' %}"></script>
-	<script src="{% static 'customer_app/js/owl.carousel.min.js' %}"></script>
-	<!--gmaps Js-->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-	<script src="{% static 'customer_app/js/gmaps.min.js' %}"></script>
-	<script src="{% static 'customer_app/js/main.js' %}"></script>
-</body>
+        <!-- Blog Post 2 -->
+        <article class="blog-card">
+            <div class="blog-card-image">
+                <div style="width:100%; height:220px; background: linear-gradient(135deg, #0f2027, #203a43); display:flex; align-items:center; justify-content:center; border-radius: 12px 12px 0 0;">
+                    <i class="fas fa-mouse-pointer" style="font-size: 4rem; color: rgba(34,197,94,0.5);"></i>
+                </div>
+                <span class="blog-tag" style="background: rgba(34,197,94,0.9);">Gaming</span>
+            </div>
+            <div class="blog-card-content">
+                <div class="blog-meta">
+                    <span><i class="fas fa-calendar-alt"></i> Mar 10, 2026</span>
+                    <span><i class="fas fa-clock"></i> 7 min read</span>
+                </div>
+                <h2 class="blog-title">Ultimate Guide to Gaming Mice: DPI, Sensors & Weight</h2>
+                <p class="blog-excerpt">Everything you need to know about choosing the perfect gaming mouse. We break down sensor types, DPI myths, and why weight matters more than you think.</p>
+                <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
 
-</html>
+        <!-- Blog Post 3 -->
+        <article class="blog-card">
+            <div class="blog-card-image">
+                <div style="width:100%; height:220px; background: linear-gradient(135deg, #1a0a2e, #3d1c5c); display:flex; align-items:center; justify-content:center; border-radius: 12px 12px 0 0;">
+                    <i class="fas fa-headphones-alt" style="font-size: 4rem; color: rgba(139,92,246,0.5);"></i>
+                </div>
+                <span class="blog-tag" style="background: rgba(139,92,246,0.9);">Reviews</span>
+            </div>
+            <div class="blog-card-content">
+                <div class="blog-meta">
+                    <span><i class="fas fa-calendar-alt"></i> Mar 5, 2026</span>
+                    <span><i class="fas fa-clock"></i> 6 min read</span>
+                </div>
+                <h2 class="blog-title">Best Wireless Gaming Headsets Under ₹5000</h2>
+                <p class="blog-excerpt">We tested 15 wireless gaming headsets under ₹5000 to find the ones that deliver the best sound quality, mic performance, and comfort for extended sessions.</p>
+                <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 4 -->
+        <article class="blog-card">
+            <div class="blog-card-image">
+                <div style="width:100%; height:220px; background: linear-gradient(135deg, #0c1220, #1c2940); display:flex; align-items:center; justify-content:center; border-radius: 12px 12px 0 0;">
+                    <i class="fas fa-tv" style="font-size: 4rem; color: rgba(59,130,246,0.5);"></i>
+                </div>
+                <span class="blog-tag" style="background: rgba(59,130,246,0.9);">Setup Guide</span>
+            </div>
+            <div class="blog-card-content">
+                <div class="blog-meta">
+                    <span><i class="fas fa-calendar-alt"></i> Feb 28, 2026</span>
+                    <span><i class="fas fa-clock"></i> 8 min read</span>
+                </div>
+                <h2 class="blog-title">How to Build the Perfect Desk Setup in 2026</h2>
+                <p class="blog-excerpt">From monitor arms to cable management, here's our comprehensive guide to building a clean, ergonomic, and aesthetically pleasing desk setup.</p>
+                <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 5 -->
+        <article class="blog-card">
+            <div class="blog-card-image">
+                <div style="width:100%; height:220px; background: linear-gradient(135deg, #1a0505, #3d1010); display:flex; align-items:center; justify-content:center; border-radius: 12px 12px 0 0;">
+                    <i class="fas fa-microchip" style="font-size: 4rem; color: rgba(239,68,68,0.5);"></i>
+                </div>
+                <span class="blog-tag" style="background: rgba(239,68,68,0.9);">Tech News</span>
+            </div>
+            <div class="blog-card-content">
+                <div class="blog-meta">
+                    <span><i class="fas fa-calendar-alt"></i> Feb 20, 2026</span>
+                    <span><i class="fas fa-clock"></i> 4 min read</span>
+                </div>
+                <h2 class="blog-title">RGB vs. Performance: What Really Matters?</h2>
+                <p class="blog-excerpt">The age-old debate settled once and for all. We look at whether RGB lighting actually impacts performance, and how to strike the right balance.</p>
+                <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Blog Post 6 -->
+        <article class="blog-card">
+            <div class="blog-card-image">
+                <div style="width:100%; height:220px; background: linear-gradient(135deg, #051015, #0a2030); display:flex; align-items:center; justify-content:center; border-radius: 12px 12px 0 0;">
+                    <i class="fas fa-plug" style="font-size: 4rem; color: rgba(6,182,212,0.5);"></i>
+                </div>
+                <span class="blog-tag" style="background: rgba(6,182,212,0.9);">Guide</span>
+            </div>
+            <div class="blog-card-content">
+                <div class="blog-meta">
+                    <span><i class="fas fa-calendar-alt"></i> Feb 14, 2026</span>
+                    <span><i class="fas fa-clock"></i> 5 min read</span>
+                </div>
+                <h2 class="blog-title">Cable Management 101: Clean Up Your Setup</h2>
+                <p class="blog-excerpt">A messy desk leads to a messy mind. Learn the best cable management techniques and products to keep your gaming setup clean and organized.</p>
+                <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+    </div>
+</div>
+{% endblock %}

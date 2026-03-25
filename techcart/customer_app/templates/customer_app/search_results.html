@@ -1,0 +1,75 @@
+{% extends "customer_app/base.html" %}
+{% load static %}
+
+{% block title %}Search: {{ query }} | TechCart{% endblock %}
+
+{% block content %}
+<div class="shop-layout" style="grid-template-columns: 1fr; margin-top: 8rem; max-width: 1100px;">
+    
+    <div class="shop-header">
+        <h1 class="shop-title">
+            {% if query %}
+            Search results for "<span style="color: var(--accent-color);">{{ query }}</span>"
+            {% else %}
+            Search Products
+            {% endif %}
+        </h1>
+        {% if query %}
+        <span style="color: var(--text-secondary);">{{ products.count }} result(s) found</span>
+        {% endif %}
+    </div>
+
+    <!-- Search Form -->
+    <div style="margin-bottom: 2rem;">
+        <form action="{% url 'search' %}" method="GET" style="display: flex; gap: 1rem; max-width: 600px;">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search for keyboards, mice, headsets..." 
+                class="form-input" style="flex:1;">
+            <button type="submit" class="btn-premium" style="padding: 0.8rem 1.5rem;">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </form>
+    </div>
+
+    {% if query %}
+        {% if products %}
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <a href="{% url 'product_detail' product.id %}" class="product-image-wrap">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                    <img src="{% static 'customer_app/img/product/p1.jpg' %}" alt="{{ product.name }}">
+                    {% endif %}
+                </a>
+                <div class="product-info">
+                    <span class="product-cat">{{ product.category.name|default:"Peripheral" }}</span>
+                    <h3 class="product-name"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                    <div class="product-bottom">
+                        <span class="product-price">₹{{ product.price }}</span>
+                        {% if product.stock > 0 %}
+                        <form method="POST" action="{% url 'add_to_cart' product.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="add-to-cart" title="Add to Cart">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="background: var(--bg-surface); border: 1px solid var(--card-border); border-radius: 16px; padding: 4rem; text-align: center;">
+            <div class="empty-state-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">No results found</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Try a different search term or browse our categories.</p>
+            <a href="{% url 'product_list' %}" class="btn-premium" style="display: inline-flex;">Browse All Products</a>
+        </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
